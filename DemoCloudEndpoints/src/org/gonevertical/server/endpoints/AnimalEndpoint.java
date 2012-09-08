@@ -16,6 +16,7 @@ import org.gonevertical.server.data.PMF;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.response.CollectionResponse;
+import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.search.Consistency;
 import com.google.appengine.api.search.Document;
@@ -25,9 +26,14 @@ import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchServiceFactory;
+import com.google.appengine.api.users.User;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
-@Api(name = "animalendpoint", version = "v3")
+@Api(
+     name = "animalendpoint", 
+     version = "v3", 
+     clientIds = { "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" } ,
+     scopes = { "https://www.googleapis.com/auth/userinfo.email" })
 public class AnimalEndpoint {
 
   private static final Index INDEX = getIndex();
@@ -57,7 +63,11 @@ public class AnimalEndpoint {
       path = "animal/list")
   @SuppressWarnings({ "cast", "unchecked" })
   public CollectionResponse<Animal> listAnimal(@Nullable @Named("cursor") String cursorString,
-      @Nullable @Named("limit") Integer limit) {
+      @Nullable @Named("limit") Integer limit, User guser) throws Exception {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     PersistenceManager pm = null;
     Cursor cursor = null;
     List<Animal> execute = null;
@@ -97,7 +107,11 @@ public class AnimalEndpoint {
       httpMethod = "GET", 
       name = "animal.get",
       path = "animal/get/{id}")
-  public Animal getAnimal(@Named("id") Long id) {
+  public Animal getAnimal(@Named("id") Long id, User guser) throws Exception {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     PersistenceManager mgr = getPersistenceManager();
     Animal animal = null;
     try {
@@ -112,7 +126,11 @@ public class AnimalEndpoint {
       httpMethod = "POST",
       name = "animal.insert",
       path = "animal/insert")
-  public Animal insertAnimal(Animal animal) {
+  public Animal insertAnimal(Animal animal, User guser) throws Exception {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     PersistenceManager mgr = getPersistenceManager();
     try {
       mgr.makePersistent(animal);
@@ -127,7 +145,11 @@ public class AnimalEndpoint {
       httpMethod = "POST",
       name = "animal.update",
       path = "animal/update")
-  public Animal updateAnimal(Animal animal) {
+  public Animal updateAnimal(Animal animal, User guser) throws Exception {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     PersistenceManager mgr = getPersistenceManager();
     try {
       mgr.makePersistent(animal);
@@ -142,7 +164,11 @@ public class AnimalEndpoint {
       httpMethod = "GET",
       name = "animal.remove",
       path = "animal/remove/{id}")
-  public Animal removeAnimal(@Named("id") Long id) {
+  public Animal removeAnimal(@Named("id") Long id, User guser) throws Exception {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     PersistenceManager mgr = getPersistenceManager();
     Animal animal = null;
     try {
@@ -158,7 +184,11 @@ public class AnimalEndpoint {
       httpMethod = "GET", 
       name = "animal.search",
       path = "animal/search/{queryString}")
-  public List<Animal> search(String queryString) {
+  public List<Animal> search(String queryString, User guser) throws Exception {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     List<Animal> returnList = new ArrayList<Animal>();
     Results<ScoredDocument> searchResults = INDEX.search(queryString);
 
@@ -169,7 +199,7 @@ public class AnimalEndpoint {
 
       long animalId = Long.parseLong(fieldId.getText());
       if (animalId != -1) {
-        Animal a = getAnimal(animalId);
+        Animal a = getAnimal(animalId, guser);
         returnList.add(a);
       }
     }

@@ -3,7 +3,7 @@
   "abstract" : false,
   "root" : "https://democloudpoint.appspot.com/_ah/api",
   "name" : "userendpoint",
-  "version" : "v1",
+  "version" : "v3",
   "description" : "This entity represents a user.",
   "defaultVersion" : false,
   "adapter" : {
@@ -41,7 +41,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "userendpoint.user.get" : {
       "path" : "user/get/{id}",
@@ -59,7 +61,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "userendpoint.addToSearchIndex" : {
       "path" : "addToSearchIndex",
@@ -73,7 +77,9 @@
       },
       "response" : {
         "body" : "empty"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "userendpoint.user.list" : {
       "path" : "user/list",
@@ -95,7 +101,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "userendpoint.user.insert" : {
       "path" : "user/insert",
@@ -109,7 +117,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "userendpoint.user.update" : {
       "path" : "user/update",
@@ -123,7 +133,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "userendpoint.user.remove" : {
       "path" : "user/remove/{id}",
@@ -141,7 +153,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     }
   },
   "descriptor" : {
@@ -150,18 +164,19 @@
         "id" : "User",
         "type" : "object",
         "properties" : {
-          "id" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "longId" : {
-            "type" : "string",
-            "format" : "int64"
-          },
-          "nameFirst" : {
+          "authDomain" : {
             "type" : "string"
           },
-          "nameLast" : {
+          "email" : {
+            "type" : "string"
+          },
+          "federatedIdentity" : {
+            "type" : "string"
+          },
+          "nickname" : {
+            "type" : "string"
+          },
+          "userId" : {
             "type" : "string"
           }
         }

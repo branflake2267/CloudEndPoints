@@ -37,7 +37,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "animalendpoint.addToSearchIndex" : {
       "path" : "addToSearchIndex",
@@ -51,7 +53,9 @@
       },
       "response" : {
         "body" : "empty"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "animalendpoint.animal.list" : {
       "path" : "animal/list",
@@ -73,7 +77,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "animalendpoint.animal.get" : {
       "path" : "animal/get/{id}",
@@ -91,7 +97,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "animalendpoint.animal.insert" : {
       "path" : "animal/insert",
@@ -105,7 +113,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "animalendpoint.animal.update" : {
       "path" : "animal/update",
@@ -119,7 +129,9 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     },
     "animalendpoint.animal.remove" : {
       "path" : "animal/remove/{id}",
@@ -137,11 +149,34 @@
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
-      }
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
     }
   },
   "descriptor" : {
     "schemas" : {
+      "User" : {
+        "id" : "User",
+        "type" : "object",
+        "properties" : {
+          "authDomain" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "federatedIdentity" : {
+            "type" : "string"
+          },
+          "nickname" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "string"
+          }
+        }
+      },
       "Animal" : {
         "id" : "Animal",
         "type" : "object",

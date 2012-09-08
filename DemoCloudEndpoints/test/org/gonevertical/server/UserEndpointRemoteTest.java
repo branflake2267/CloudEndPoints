@@ -12,7 +12,7 @@ public class UserEndpointRemoteTest extends TestUtils {
 
   @Test
   public void testInsert() {
-    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/insert";
+    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v3/user/insert";
     String json = "{ \"nameFirst\": \"Brandon\", \"nameLast\": \"Donnelson\" }";
     String content = postRequest(url, json);
     
@@ -36,13 +36,13 @@ public class UserEndpointRemoteTest extends TestUtils {
   
   @Test
   public void testList() {
-    String content = getRequest("https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/list?limit=2");
+    String content = getRequest("https://democloudpoint.appspot.com/_ah/api/userendpoint/v3/user/list?limit=2");
     assertTrue(content.contains("items"));
   }
   
   @Test
   public void testGet() {
-    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/insert";
+    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v3/user/insert";
     String json = "{ \"nameFirst\": \"Brandon\", \"nameLast\": \"Donnelson\" }";
     String content = postRequest(url, json);
     
@@ -61,7 +61,7 @@ public class UserEndpointRemoteTest extends TestUtils {
       e.printStackTrace();
     }
     
-    url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/get/" + id;
+    url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v3/user/get/" + id;
     content = getRequest(url);
     
     try {
@@ -82,7 +82,7 @@ public class UserEndpointRemoteTest extends TestUtils {
   
   @Test
   public void testUpdate() {
-    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/insert";
+    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v3/user/insert";
     String json = "{ \"nameFirst\": \"Brandon\" }";
     String content = postRequest(url, json);
     
@@ -94,7 +94,7 @@ public class UserEndpointRemoteTest extends TestUtils {
       fail();
     }
     
-    url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/update";
+    url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v3/user/update";
     try {
       jso.put("nameLast", "Donnelson");
     } catch (JSONException e1) {
@@ -120,13 +120,13 @@ public class UserEndpointRemoteTest extends TestUtils {
   
   @Test
   public void testSearch() {
-    String content = getRequest("https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/search/brandon");
+    String content = getRequest("https://democloudpoint.appspot.com/_ah/api/userendpoint/v3/user/search/brandon");
     assertTrue(content.contains("items"));
   }
   
   @Test
   public void testRemove() {
-    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/insert";
+    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v3/user/insert";
     String json = "{ \"nameFirst\": \"Brandon\" }";
     String content = postRequest(url, json);
     
@@ -146,7 +146,7 @@ public class UserEndpointRemoteTest extends TestUtils {
       fail();
     }
     
-    url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/remove/" + id;
+    url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v3/user/remove/" + id;
     content = getRequest(url);
     assertTrue(content.contains("\"id\" : " + id));
   }

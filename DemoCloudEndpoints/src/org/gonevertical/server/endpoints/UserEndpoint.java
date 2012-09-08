@@ -16,6 +16,7 @@ import org.gonevertical.server.data.User;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.response.CollectionResponse;
+import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.search.Consistency;
 import com.google.appengine.api.search.Document;
@@ -30,7 +31,9 @@ import com.google.appengine.datanucleus.query.JDOCursorHelper;
 @Api(
      name = "userendpoint",
      description = "This entity represents a user.", 
-     version = "v1")
+     version = "v3",
+     clientIds = { "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" } ,
+     scopes = { "https://www.googleapis.com/auth/userinfo.email" })
 public class UserEndpoint {
 
   private static final Index INDEX = getIndex();
@@ -61,7 +64,11 @@ public class UserEndpoint {
       path = "user/list")
   @SuppressWarnings({ "cast", "unchecked" })
   public CollectionResponse<User> listUser(@Nullable @Named("cursor") String cursorString,
-      @Nullable @Named("limit") Integer limit) {
+      @Nullable @Named("limit") Integer limit, com.google.appengine.api.users.User guser) throws Exception  {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     PersistenceManager pm = null;
     Cursor cursor = null;
     List<User> execute = null;
@@ -101,7 +108,11 @@ public class UserEndpoint {
       httpMethod = "GET", 
       name = "user.get",
       path = "user/get/{id}")
-  public User getUser(@Named("id") Long id) {
+  public User getUser(@Named("id") Long id, com.google.appengine.api.users.User guser) throws Exception {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     PersistenceManager mgr = getPersistenceManager();
     User user = null;
     try {
@@ -116,7 +127,11 @@ public class UserEndpoint {
       httpMethod = "POST",
       name = "user.insert",
       path = "user/insert")
-  public User insertUser(User user) {
+  public User insertUser(User user, com.google.appengine.api.users.User guser) throws Exception {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     PersistenceManager mgr = getPersistenceManager();
     try {
       mgr.makePersistent(user);
@@ -131,7 +146,11 @@ public class UserEndpoint {
       httpMethod = "POST",
       name = "user.update",
       path = "user/update")
-  public User updateUser(User user) {
+  public User updateUser(User user, com.google.appengine.api.users.User guser) throws Exception{
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     PersistenceManager mgr = getPersistenceManager();
     try {
       mgr.makePersistent(user);
@@ -146,7 +165,11 @@ public class UserEndpoint {
       httpMethod = "GET",
       name = "user.remove",
       path = "user/remove/{id}")
-  public User removeUser(@Named("id") Long id) {
+  public User removeUser(@Named("id") Long id, com.google.appengine.api.users.User guser) throws Exception {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     PersistenceManager mgr = getPersistenceManager();
     User user = null;
     try {
@@ -163,7 +186,12 @@ public class UserEndpoint {
       httpMethod = "GET", 
       name = "user.search",
       path = "user/search/{queryString}")
-  public List<User> search(@Named("queryString") String queryString) {
+  public List<User> search(@Named("queryString") String queryString, com.google.appengine.api.users.User guser) 
+      throws Exception {
+    if (guser == null) {
+      throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+    }
+    
     List<User> returnList = new ArrayList<User>();
     Results<ScoredDocument> searchResults = INDEX.search(queryString);
 
@@ -174,7 +202,7 @@ public class UserEndpoint {
 
       long userId = Long.parseLong(fieldId.getText());
       if (userId != -1) {
-        User p = getUser(userId);
+        User p = getUser(userId, guser);
         returnList.add(p);
       }
     }
