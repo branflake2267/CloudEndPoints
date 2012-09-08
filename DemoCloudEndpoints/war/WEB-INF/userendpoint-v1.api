@@ -1,0 +1,245 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://democloudpoint.appspot.com/_ah/api",
+  "name" : "userendpoint",
+  "version" : "v1",
+  "description" : "This entity represents a user.",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "http://democloudpoint.appspot.com/_ah/spi",
+    "deadline" : 10.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "userendpoint.user.search" : {
+      "path" : "user/search/{queryString}",
+      "httpMethod" : "GET",
+      "rosyMethod" : "UserEndpoint.search",
+      "request" : {
+        "parameters" : {
+          "queryString" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "userendpoint.user.get" : {
+      "path" : "user/get/{id}",
+      "httpMethod" : "GET",
+      "rosyMethod" : "UserEndpoint.getUser",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "userendpoint.addToSearchIndex" : {
+      "path" : "addToSearchIndex",
+      "httpMethod" : "POST",
+      "rosyMethod" : "UserEndpoint.addToSearchIndex",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "userendpoint.user.list" : {
+      "path" : "user/list",
+      "httpMethod" : "GET",
+      "rosyMethod" : "UserEndpoint.listUser",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "required" : false,
+            "type" : "string"
+          },
+          "limit" : {
+            "required" : false,
+            "type" : "integer"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "userendpoint.user.insert" : {
+      "path" : "user/insert",
+      "httpMethod" : "POST",
+      "rosyMethod" : "UserEndpoint.insertUser",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "userendpoint.user.update" : {
+      "path" : "user/update",
+      "httpMethod" : "POST",
+      "rosyMethod" : "UserEndpoint.updateUser",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "userendpoint.user.remove" : {
+      "path" : "user/remove/{id}",
+      "httpMethod" : "GET",
+      "rosyMethod" : "UserEndpoint.removeUser",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "User" : {
+        "id" : "User",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "longId" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "nameFirst" : {
+            "type" : "string"
+          },
+          "nameLast" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Users" : {
+        "id" : "Users",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "User"
+            }
+          }
+        }
+      },
+      "CollectionResponse_User" : {
+        "id" : "CollectionResponse_User",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "User"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "UserEndpoint.search" : {
+        "response" : {
+          "type" : "object",
+          "$ref" : "Users"
+        }
+      },
+      "UserEndpoint.getUser" : {
+        "response" : {
+          "$ref" : "User"
+        }
+      },
+      "UserEndpoint.addToSearchIndex" : {
+        "request" : {
+          "$ref" : "User"
+        },
+        "response" : {
+          "$ref" : "empty"
+        }
+      },
+      "UserEndpoint.listUser" : {
+        "response" : {
+          "$ref" : "CollectionResponse_User"
+        }
+      },
+      "UserEndpoint.insertUser" : {
+        "request" : {
+          "$ref" : "User"
+        },
+        "response" : {
+          "$ref" : "User"
+        }
+      },
+      "UserEndpoint.updateUser" : {
+        "request" : {
+          "$ref" : "User"
+        },
+        "response" : {
+          "$ref" : "User"
+        }
+      },
+      "UserEndpoint.removeUser" : {
+        "response" : {
+          "$ref" : "User"
+        }
+      }
+    }
+  }
+}

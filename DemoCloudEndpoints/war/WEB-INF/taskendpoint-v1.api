@@ -1,0 +1,174 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://democloudpoint.appspot.com/_ah/api",
+  "name" : "taskendpoint",
+  "version" : "v1",
+  "description" : "",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "http://democloudpoint.appspot.com/_ah/spi",
+    "deadline" : 10.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "taskendpoint.getTask" : {
+      "path" : "task/{id}",
+      "httpMethod" : "GET",
+      "rosyMethod" : "TaskEndpoint.getTask",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "taskendpoint.removeTask" : {
+      "path" : "task/{id}",
+      "httpMethod" : "DELETE",
+      "rosyMethod" : "TaskEndpoint.removeTask",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "taskendpoint.listTask" : {
+      "path" : "task",
+      "httpMethod" : "GET",
+      "rosyMethod" : "TaskEndpoint.listTask",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "taskendpoint.insertTask" : {
+      "path" : "task",
+      "httpMethod" : "POST",
+      "rosyMethod" : "TaskEndpoint.insertTask",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "taskendpoint.updateTask" : {
+      "path" : "task",
+      "httpMethod" : "PUT",
+      "rosyMethod" : "TaskEndpoint.updateTask",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Task" : {
+        "id" : "Task",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "string",
+            "format" : "int64"
+          }
+        }
+      },
+      "Tasks" : {
+        "id" : "Tasks",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Task"
+            }
+          }
+        }
+      }
+    },
+    "methods" : {
+      "TaskEndpoint.getTask" : {
+        "response" : {
+          "$ref" : "Task"
+        }
+      },
+      "TaskEndpoint.removeTask" : {
+        "response" : {
+          "$ref" : "Task"
+        }
+      },
+      "TaskEndpoint.listTask" : {
+        "response" : {
+          "type" : "object",
+          "$ref" : "Tasks"
+        }
+      },
+      "TaskEndpoint.insertTask" : {
+        "request" : {
+          "$ref" : "Task"
+        },
+        "response" : {
+          "$ref" : "Task"
+        }
+      },
+      "TaskEndpoint.updateTask" : {
+        "request" : {
+          "$ref" : "Task"
+        },
+        "response" : {
+          "$ref" : "Task"
+        }
+      }
+    }
+  }
+}

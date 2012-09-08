@@ -1,0 +1,241 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://democloudpoint.appspot.com/_ah/api",
+  "name" : "animalendpoint",
+  "version" : "v3",
+  "description" : "",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "http://democloudpoint.appspot.com/_ah/spi",
+    "deadline" : 10.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "animalendpoint.animal.search" : {
+      "path" : "animal/search/{queryString}",
+      "httpMethod" : "GET",
+      "rosyMethod" : "AnimalEndpoint.search",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "animalendpoint.addToSearchIndex" : {
+      "path" : "addToSearchIndex",
+      "httpMethod" : "POST",
+      "rosyMethod" : "AnimalEndpoint.addToSearchIndex",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "animalendpoint.animal.list" : {
+      "path" : "animal/list",
+      "httpMethod" : "GET",
+      "rosyMethod" : "AnimalEndpoint.listAnimal",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "required" : false,
+            "type" : "string"
+          },
+          "limit" : {
+            "required" : false,
+            "type" : "integer"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "animalendpoint.animal.get" : {
+      "path" : "animal/get/{id}",
+      "httpMethod" : "GET",
+      "rosyMethod" : "AnimalEndpoint.getAnimal",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "animalendpoint.animal.insert" : {
+      "path" : "animal/insert",
+      "httpMethod" : "POST",
+      "rosyMethod" : "AnimalEndpoint.insertAnimal",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "animalendpoint.animal.update" : {
+      "path" : "animal/update",
+      "httpMethod" : "POST",
+      "rosyMethod" : "AnimalEndpoint.updateAnimal",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "animalendpoint.animal.remove" : {
+      "path" : "animal/remove/{id}",
+      "httpMethod" : "GET",
+      "rosyMethod" : "AnimalEndpoint.removeAnimal",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Animal" : {
+        "id" : "Animal",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "string",
+            "format" : "int64"
+          }
+        }
+      },
+      "Animals" : {
+        "id" : "Animals",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Animal"
+            }
+          }
+        }
+      },
+      "CollectionResponse_Animal" : {
+        "id" : "CollectionResponse_Animal",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Animal"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "AnimalEndpoint.search" : {
+        "request" : {
+          "$ref" : "string"
+        },
+        "response" : {
+          "type" : "object",
+          "$ref" : "Animals"
+        }
+      },
+      "AnimalEndpoint.addToSearchIndex" : {
+        "request" : {
+          "$ref" : "Animal"
+        },
+        "response" : {
+          "$ref" : "empty"
+        }
+      },
+      "AnimalEndpoint.listAnimal" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Animal"
+        }
+      },
+      "AnimalEndpoint.getAnimal" : {
+        "response" : {
+          "$ref" : "Animal"
+        }
+      },
+      "AnimalEndpoint.insertAnimal" : {
+        "request" : {
+          "$ref" : "Animal"
+        },
+        "response" : {
+          "$ref" : "Animal"
+        }
+      },
+      "AnimalEndpoint.updateAnimal" : {
+        "request" : {
+          "$ref" : "Animal"
+        },
+        "response" : {
+          "$ref" : "Animal"
+        }
+      },
+      "AnimalEndpoint.removeAnimal" : {
+        "response" : {
+          "$ref" : "Animal"
+        }
+      }
+    }
+  }
+}
