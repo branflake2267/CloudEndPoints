@@ -1,6 +1,10 @@
 package org.gonevertical.server.servlet;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +23,8 @@ public class HomeServlet extends HttpServlet {
     String thisUrl = request.getRequestURI();
 
     writeHeader(response);
+    
+    writeAd(response);
 
     if (userService.isUserLoggedIn()) {
       writeLoggedIn(response, thisUrl);
@@ -29,12 +35,12 @@ public class HomeServlet extends HttpServlet {
     writeFooter(response);
   }
 
-  private void writeFooter(HttpServletResponse response) throws IOException {
+  private void writeHeader(HttpServletResponse response) throws IOException {
     String s = "<html><body>";
     response.getWriter().println(s);
   }
-
-  private void writeHeader(HttpServletResponse response) throws IOException {
+  
+  private void writeFooter(HttpServletResponse response) throws IOException {
     String s = "";
     s += "<a href=\"/_ah/api/explorer\">Api Explorer</a><br/>";
     s += "<a href=\"/session\">Session</a><br/>";
@@ -44,13 +50,13 @@ public class HomeServlet extends HttpServlet {
 
   private void writeLoggedOut(HttpServletResponse response, String thisUrl) throws IOException {
     String url = userService.createLoginURL(thisUrl);
-    String s = "<a href=\"" + url + "\">Log in</a>";
+    String s = "<a href=\"" + url + "\">Log in</a><br/>";
     response.getWriter().println(s);
   }
 
   private void writeLoggedIn(HttpServletResponse response, String thisUrl) throws IOException {
     String url = userService.createLogoutURL(thisUrl);
-    String s = getUserName() + " <a href=\"" + url + "\">Logout</a>";
+    String s = getUserName() + " <a href=\"" + url + "\">Logout</a><br/>";
     response.getWriter().println(s);
   }
 
@@ -58,4 +64,19 @@ public class HomeServlet extends HttpServlet {
     return userService.getCurrentUser().getNickname();
   }
 
+  private void writeAd(HttpServletResponse response) throws IOException {
+    File file = new File("home.txt");
+    InputStream in = null;
+    try {
+      in = new BufferedInputStream(new FileInputStream(file));
+      int ch;
+      while ((ch = in.read()) !=-1) {
+        response.getWriter().print((char) ch);
+      }
+    }
+    finally {
+      if (in != null) in.close(); 
+    }
+  }
+  
 }
