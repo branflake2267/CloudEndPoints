@@ -21,6 +21,7 @@ public class TestUtils {
       URLConnection conn = urlo.openConnection();
       conn.setDoInput(true); 
       conn.setDoOutput(true);
+      conn.setRequestProperty("Content-Type", "application/json");
       
       InputStream in = conn.getInputStream();
       int ch;
@@ -45,7 +46,9 @@ public class TestUtils {
       URLConnection conn = urlo.openConnection();
       conn.setDoOutput(true);
       conn.setRequestProperty("Accept-Charset", charset);
-      conn.setRequestProperty("Content-Type", "Content-Type: application/json");
+      conn.setRequestProperty("Content-Type", "application/json");
+      conn.setRequestProperty("Accept", "application/json");
+      
       OutputStream output = null;
       try {
         output = conn.getOutputStream();

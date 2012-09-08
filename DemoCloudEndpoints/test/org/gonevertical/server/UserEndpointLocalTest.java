@@ -126,7 +126,7 @@ public class UserEndpointLocalTest extends TestUtils {
     
     url = "http://localhost:8888/_ah/api/userendpoint/v1/user/remove/" + id;
     content = getRequest(url);
-    assertTrue(content.contains("\"id\" : " + id));
+    assertTrue(content.contains(Long.toString(id)));
   }
   
 }

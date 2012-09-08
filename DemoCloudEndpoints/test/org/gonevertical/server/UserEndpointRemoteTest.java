@@ -15,19 +15,35 @@ public class UserEndpointRemoteTest extends TestUtils {
     String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/insert";
     String json = "{ \"nameFirst\": \"Brandon\", \"nameLast\": \"Donnelson\" }";
     String content = postRequest(url, json);
-    assertTrue(content.contains("\"id\" :"));
+    
+    JSONObject jso = null;
+    try {
+      jso = new JSONObject(content);
+    } catch (JSONException e) {
+      e.printStackTrace();
+      fail();
+    }
+    
+    Long id = null;
+    try {
+      id = jso.getLong("id");
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    
+    assertTrue(id > 0);
   } 
   
   @Test
   public void testList() {
     String content = getRequest("https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/list?limit=2");
-    assertTrue(content.contains("\"items\" :"));
+    assertTrue(content.contains("items"));
   }
   
   @Test
   public void testGet() {
-    String url = "http://localhost:8888/_ah/api/userendpoint/v1/user/insert";
-    String json = "{ \"nameFirst\": \"Brandon\" }";
+    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/insert";
+    String json = "{ \"nameFirst\": \"Brandon\", \"nameLast\": \"Donnelson\" }";
     String content = postRequest(url, json);
     
     JSONObject jso = null;
@@ -45,9 +61,23 @@ public class UserEndpointRemoteTest extends TestUtils {
       e.printStackTrace();
     }
     
-    url = "http://localhost:8888/_ah/api/userendpoint/v1/user/get/" + id;
+    url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/get/" + id;
     content = getRequest(url);
-    assertTrue(content.contains("\"id\" :"));
+    
+    try {
+      jso = new JSONObject(content);
+    } catch (JSONException e) {
+      e.printStackTrace();
+      fail();
+    }
+    
+    try {
+      id = jso.getLong("id");
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    
+    assertTrue(id > 0);
   }
   
   @Test
@@ -90,12 +120,35 @@ public class UserEndpointRemoteTest extends TestUtils {
   
   @Test
   public void testSearch() {
-    
+    String content = getRequest("https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/search/brandon");
+    assertTrue(content.contains("items"));
   }
   
   @Test
   public void testRemove() {
+    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/insert";
+    String json = "{ \"nameFirst\": \"Brandon\" }";
+    String content = postRequest(url, json);
     
+    JSONObject jso = null;
+    try {
+      jso = new JSONObject(content);
+    } catch (JSONException e) {
+      e.printStackTrace();
+      fail();
+    }
+    
+    long id = 0;
+    try {
+      id = jso.getLong("id");
+    } catch (JSONException e) {
+      e.printStackTrace();
+      fail();
+    }
+    
+    url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/remove/" + id;
+    content = getRequest(url);
+    assertTrue(content.contains("\"id\" : " + id));
   }
   
 }
