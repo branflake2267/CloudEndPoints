@@ -1,4 +1,5 @@
 CloudEndPoints
 ==============
 
-Demo of App Engine Cloud End Points
+#DEMO
+https://democloudpoint.appspot.com - See the demo live with links to the explorer and session.
