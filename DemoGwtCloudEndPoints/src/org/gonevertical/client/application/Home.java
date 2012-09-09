@@ -1,16 +1,11 @@
 package org.gonevertical.client.application;
 
-import org.gonevertical.client.utils.QueryStringData;
-import org.gonevertical.client.utils.QueryStringUtils;
+import org.gonevertical.client.ClientFactory;
+import org.gonevertical.client.data.Session;
+import org.gonevertical.client.utils.data.RequestHandler;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -27,17 +22,18 @@ public class Home extends Composite {
   private static HomeUiBinder uiBinder = GWT.create(HomeUiBinder.class);
   @UiField Button login;
   @UiField Button session;
+  
+  private ClientFactory clientFactory;
 
   public Home() {
     initWidget(uiBinder.createAndBindUi(this));
+  }
+  
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
     
-    if (getAccessToken() != null) {
-      session.setVisible(true);
-      login.setVisible(false);
-    } else {
-      session.setVisible(false);
-      login.setVisible(true);
-    }
+    login.setVisible(!clientFactory.isLoggedIn());
+    session.setVisible(clientFactory.isLoggedIn());
   }
 
   @UiHandler("login")
@@ -47,82 +43,22 @@ public class Home extends Composite {
   
   @UiHandler("session")
   void onSessionClick(ClickEvent event) {
-    getSession();
+    Session.getRequest(clientFactory.getAccessToken(), new RequestHandler<Session>() {
+      @Override
+      public void onSuccess(Session object) {
+        // TODO
+        System.out.println(object.toJson());
+      }
+      
+      @Override
+      public void onFailure(Throwable exception) {
+        exception.printStackTrace();
+      }
+    });
   }
 
   private void login() {
-    Window.Location.assign(getLoginString());
-  }
-  
-  private String getLoginString() {
-    String thisurl = GWT.getHostPageBaseURL() + Window.Location.getQueryString();
-    
-    String url = URL.encode(thisurl);
-    
-    String oauthurl = "";
-    oauthurl += "https://accounts.google.com/o/oauth2/auth";
-    oauthurl += "?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email";
-    oauthurl += "&state=login";
-    oauthurl += "&redirect_uri=" + url;
-    oauthurl += "&response_type=token";
-    oauthurl += "&client_id=734175750239.apps.googleusercontent.com";
-    oauthurl += "&approval_prompt=force";
-    return oauthurl;
-  }
-  
-  private void getSession() {
-    String token = getAccessToken();
-    
-    String url = "https://democloudpoint.appspot.com/_ah/api/sessionendpoint/v2/session";
-    
-    RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
-    builder.setHeader("Content-Type", "application/json");
-    builder.setHeader("Accept", "application/json");
-    builder.setHeader("Authorization", "Bearer " + token);
-    
-    try {
-      builder.sendRequest(null, new RequestCallback() {
-        public void onResponseReceived(Request request, Response response) {
-          if (response.getStatusCode() == 200) {
-            System.out.println("response=" + response.getText());
-          }
-        }
-        public void onError(Request request, Throwable exception) {
-          exception.printStackTrace();
-        }
-      });
-    } catch (RequestException e) {
-      e.printStackTrace();
-    }
-  }
-  
-  private String getAccessToken() {
-    QueryStringData qsd = QueryStringUtils.getQueryStringData();
-    String token = qsd.getParameter_String("access_token");
-    return token;
-  }
-
-  private void insertUser() {
-    String url = "https://democloudpoint.appspot.com/_ah/api/userendpoint/v1/user/insert";
-    String requestData = "{ \"nameFirst\": \"Brandon\" }";
-    
-    RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
-    builder.setHeader("Content-Type", "application/json");
-    builder.setHeader("Accept", "application/json");
-    try {
-      builder.sendRequest(requestData, new RequestCallback() {
-        public void onResponseReceived(Request request, Response response) {
-          if (response.getStatusCode() == 200) {
-            System.out.println("response=" + response.getText());
-          }
-        }
-        public void onError(Request request, Throwable exception) {
-          exception.printStackTrace();
-        }
-      });
-    } catch (RequestException e) {
-      e.printStackTrace();
-    }
+    Window.Location.assign(clientFactory.getLoginString());
   }
   
 }
