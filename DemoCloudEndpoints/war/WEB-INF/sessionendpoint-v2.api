@@ -1,0 +1,86 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://democloudpoint.appspot.com/_ah/api",
+  "name" : "sessionendpoint",
+  "version" : "v2",
+  "description" : "",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "http://democloudpoint.appspot.com/_ah/spi",
+    "deadline" : 10.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "sessionendpoint.getSession" : {
+      "path" : "session",
+      "httpMethod" : "GET",
+      "rosyMethod" : "SessionEndpoint.getSession",
+      "request" : {
+        "parameters" : {
+        },
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      },
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "clientIds" : [ "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" ]
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "User" : {
+        "id" : "User",
+        "type" : "object",
+        "properties" : {
+          "authDomain" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "federatedIdentity" : {
+            "type" : "string"
+          },
+          "nickname" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Session" : {
+        "id" : "Session",
+        "type" : "object",
+        "properties" : {
+          "user" : {
+            "$ref" : "User"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "SessionEndpoint.getSession" : {
+        "response" : {
+          "$ref" : "Session"
+        }
+      }
+    }
+  }
+}

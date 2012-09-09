@@ -43,7 +43,7 @@ public class HomeServlet extends HttpServlet {
   private void writeFooter(HttpServletResponse response) throws IOException {
     String s = "";
     s += "<a href=\"/_ah/api/explorer\">Api Explorer</a><br/>";
-    s += "<a href=\"/session\">Session</a><br/>";
+    s += "<a href=\"https://democloudpoint.appspot.com/_ah/api/sessionendpoint/v2/session\">Session</a><br/>";
     s += "</body></html>";
     response.getWriter().println(s);
   }
