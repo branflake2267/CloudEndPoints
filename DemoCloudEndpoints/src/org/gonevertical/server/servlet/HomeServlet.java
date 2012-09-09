@@ -15,23 +15,11 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 public class HomeServlet extends HttpServlet {
 
-  private UserService userService = UserServiceFactory.getUserService();
-  
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html");
-    
-    String thisUrl = request.getRequestURI();
 
     writeHeader(response);
-    
     writeAd(response);
-
-    if (userService.isUserLoggedIn()) {
-      writeLoggedIn(response, thisUrl);
-    } else {
-      writeLoggedOut(response, thisUrl);
-    }
-    
     writeFooter(response);
   }
 
@@ -46,22 +34,6 @@ public class HomeServlet extends HttpServlet {
     s += "<a href=\"https://democloudpoint.appspot.com/_ah/api/sessionendpoint/v2/session\">Session</a><br/>";
     s += "</body></html>";
     response.getWriter().println(s);
-  }
-
-  private void writeLoggedOut(HttpServletResponse response, String thisUrl) throws IOException {
-    String url = userService.createLoginURL(thisUrl);
-    String s = "<a href=\"" + url + "\">Log in</a><br/>";
-    response.getWriter().println(s);
-  }
-
-  private void writeLoggedIn(HttpServletResponse response, String thisUrl) throws IOException {
-    String url = userService.createLogoutURL(thisUrl);
-    String s = getUserName() + " <a href=\"" + url + "\">Logout</a><br/>";
-    response.getWriter().println(s);
-  }
-
-  private String getUserName() {
-    return userService.getCurrentUser().getNickname();
   }
 
   private void writeAd(HttpServletResponse response) throws IOException {
