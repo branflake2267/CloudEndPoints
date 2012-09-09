@@ -2,6 +2,7 @@ package org.gonevertical.client.application;
 
 import org.gonevertical.client.ClientFactory;
 import org.gonevertical.client.data.Session;
+import org.gonevertical.client.data.requests.SessionRequest;
 import org.gonevertical.client.utils.data.RequestHandler;
 
 import com.google.gwt.core.client.GWT;
@@ -43,11 +44,12 @@ public class Home extends Composite {
   
   @UiHandler("session")
   void onSessionClick(ClickEvent event) {
-    Session.getRequest(clientFactory.getAccessToken(), new RequestHandler<Session>() {
+    SessionRequest.getRequest(clientFactory.getAccessToken(), new RequestHandler<Session>() {
       @Override
-      public void onSuccess(Session object) {
-        // TODO
-        System.out.println(object.toJson());
+      public void onSuccess(Session session) {
+        clientFactory.setSession(session);
+        
+        Window.alert(session.toJson());
       }
       
       @Override

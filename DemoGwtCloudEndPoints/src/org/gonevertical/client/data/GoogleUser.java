@@ -15,7 +15,7 @@ public class GoogleUser extends BaseJso {
     return this.authDomain;
   }-*/;
   
-  public final native long getUserId() /*-{
+  public final native String getUserId() /*-{
     return this.userId;
   }-*/;
   

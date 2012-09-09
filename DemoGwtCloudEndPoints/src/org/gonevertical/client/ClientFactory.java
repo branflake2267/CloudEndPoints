@@ -1,5 +1,6 @@
 package org.gonevertical.client;
 
+import org.gonevertical.client.data.Session;
 import org.gonevertical.client.utils.QueryStringData;
 import org.gonevertical.client.utils.QueryStringUtils;
 
@@ -10,6 +11,7 @@ import com.google.gwt.user.client.Window;
 public class ClientFactory {
 
   private String access_token;
+  private Session session;
   
   public ClientFactory() {
     initAccessToken();
@@ -42,6 +44,10 @@ public class ClientFactory {
     oauthurl += "&client_id=734175750239.apps.googleusercontent.com";
     oauthurl += "&approval_prompt=force";
     return oauthurl;
+  }
+
+  public void setSession(Session session) {
+    this.session = session;
   }
   
 }
